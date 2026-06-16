@@ -3,14 +3,17 @@ import { z } from "zod";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { headers } from "next/headers";
+import { getTogetherApiKey, missingApiKeyResponse } from "@/lib/together";
 
 let ratelimit: Ratelimit | undefined;
 
-// Add rate limiting if Upstash API keys are set, otherwise skip
-if (process.env.UPSTASH_REDIS_REST_URL) {
+// Rate limiting is dormant by default; enable with ENABLE_RATE_LIMIT=true
+if (
+  process.env.ENABLE_RATE_LIMIT === "true" &&
+  process.env.UPSTASH_REDIS_REST_URL
+) {
   ratelimit = new Ratelimit({
     redis: Redis.fromEnv(),
-    // Allow 5 requests per day (~1 prompt), then need to use API key
     limiter: Ratelimit.fixedWindow(5, "1440 m"),
     analytics: true,
     prefix: "hive-painter",
@@ -18,17 +21,25 @@ if (process.env.UPSTASH_REDIS_REST_URL) {
 }
 
 export async function POST(req: Request) {
-  let json = await req.json();
-  let { prompt, userAPIKey, iterativeMode, style } = z
+  const json = await req.json();
+  const { prompt, model, width, height, seed, steps, userAPIKey, style } = z
     .object({
-      prompt: z.string(),
-      iterativeMode: z.boolean(),
+      prompt: z.string().min(1),
+      model: z.string().min(1),
+      width: z.number().int().min(256).max(2048),
+      height: z.number().int().min(256).max(2048),
+      seed: z.number().int().optional(),
+      steps: z.number().int().min(1).max(50).optional(),
       userAPIKey: z.string().optional(),
       style: z.string().optional(),
     })
     .parse(json);
 
-  // Add observability if a Helicone key is specified, otherwise skip
+  const serverApiKey = getTogetherApiKey();
+  if (!serverApiKey && !userAPIKey) {
+    return missingApiKeyResponse();
+  }
+
   let options: ConstructorParameters<typeof Together>[0] = {};
   if (process.env.HELICONE_API_KEY) {
     options.baseURL = "https://together.helicone.ai/v1";
@@ -38,53 +49,52 @@ export async function POST(req: Request) {
     };
   }
 
-  const client = new Together(options);
-
-  if (userAPIKey) {
-    client.apiKey = userAPIKey;
-  }
+  const client = new Together({
+    ...options,
+    apiKey: userAPIKey || serverApiKey,
+  });
 
   if (ratelimit && !userAPIKey) {
     const identifier = await getIPAddress();
-
     const { success } = await ratelimit.limit(identifier);
     if (!success) {
       return Response.json(
         "No requests left. Please add your own API key or try again in 24h.",
-        {
-          status: 429,
-        },
+        { status: 429 },
       );
     }
   }
 
+  let finalPrompt = prompt;
   if (style) {
-    prompt += `. Use a ${style} style for the image.`;
+    finalPrompt += `. Use a ${style} style for the image.`;
   }
 
-  let response;
   try {
-    response = await client.images.create({
-      prompt,
-      model: "black-forest-labs/FLUX.1-schnell",
-      width: 1024,
-      height: 768,
-      seed: iterativeMode ? 123 : undefined,
-      steps: 3,
-      // @ts-expect-error - this is not typed in the API
+    const response = await client.images.create({
+      prompt: finalPrompt,
+      model,
+      width,
+      height,
+      seed,
+      steps,
+      // @ts-expect-error - not typed in the SDK
       response_format: "base64",
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    return Response.json(
-      { error: e.toString() },
-      {
-        status: 500,
-      },
-    );
-  }
 
-  return Response.json(response.data[0]);
+    const image = response.data?.[0];
+    if (!image?.b64_json) {
+      return Response.json(
+        { error: "No image data returned" },
+        { status: 500 },
+      );
+    }
+
+    return Response.json(image);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    return Response.json({ error: message }, { status: 500 });
+  }
 }
 
 export const runtime = "edge";

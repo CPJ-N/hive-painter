@@ -105,3 +105,27 @@ export const IMAGE_PROMPTS: Record<string, string> = IMAGE_STYLES.reduce(
     }),
     {},
 );
+
+export type AspectRatio = {
+  label: string;
+  value: string;
+  width: number;
+  height: number;
+};
+
+export const ASPECT_RATIOS: AspectRatio[] = [
+  { label: "1:1", value: "1:1", width: 1024, height: 1024 },
+  { label: "16:9", value: "16:9", width: 1344, height: 768 },
+  { label: "9:16", value: "9:16", width: 768, height: 1344 },
+  { label: "4:3", value: "4:3", width: 1152, height: 896 },
+  { label: "3:4", value: "3:4", width: 896, height: 1152 },
+];
+
+export const DEFAULT_ASPECT_RATIO = ASPECT_RATIOS[0];
+export const DEFAULT_VARIATION_COUNT = 4;
+export const MAX_VARIATION_COUNT = 20;
+export const MAX_CONCURRENCY = 8;
+export const DEFAULT_MODEL_IDS = [
+  "black-forest-labs/FLUX.1-schnell",
+  "black-forest-labs/FLUX.1.1-pro",
+];

@@ -11,8 +11,8 @@ const anonymousPro = Anonymous_Pro({
   variable: "--font-anonymous-pro",
 });
 
-let title = "Hive Painter - Real-Time AI Image Generator";
-let description = "Generate images with AI in milliseconds.";
+let title = "Hive Painter - Bulk AI Image Generator";
+let description = "Generate images across multiple Together AI models at once.";
 let url = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 let ogimage = "/og-image.png";
 let sitename = "Hive Painter";
@@ -55,7 +55,7 @@ export default function RootLayout({
       </head>
       <body
         className="dark h-full min-h-full bg-[length:6px] font-mono text-gray-100 antialiased"
-        style={{ backgroundImage: `url(${bgPattern.src}` }}
+        style={{ backgroundImage: `url(${bgPattern.src})` }}
       >
         <Providers>{children}</Providers>
       </body>

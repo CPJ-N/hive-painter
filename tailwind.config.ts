@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors";
 import tailwindcssAnimate from "tailwindcss-animate";
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -11,19 +10,6 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    darkMode: "class",
-    colors: {
-      ...colors,
-      gray: {
-        "100": "#F3F3F3",
-        "200": "#C9C9C9",
-        "300": "#898989",
-        "350": "#525252",
-        "400": "#222222",
-        "500": "#151515",
-        "600": "#070707",
-      },
-    },
     extend: {
       borderRadius: {
         lg: "var(--radius)",
@@ -31,6 +17,21 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        gray: {
+          "100": "#D8E4DC",
+          "200": "#9AAD9F",
+          "300": "#5C6E62",
+          "350": "#364038",
+          "400": "#141C18",
+          "500": "#0E1512",
+          "600": "#070707",
+        },
+        emerald: {
+          "300": "#3D7358",
+          "400": "#2A5540",
+          "500": "#1A3829",
+          "600": "#0F2219",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -64,16 +65,14 @@ const config: Config = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
       },
       fontFamily: {
         mono: ["var(--font-anonymous-pro)", ...defaultTheme.fontFamily.mono],
+      },
+      boxShadow: {
+        panel:
+          "0 0 0 1px rgba(42, 85, 64, 0.18), 0 24px 48px -12px rgba(0, 0, 0, 0.55)",
+        tile: "0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px -8px rgba(0, 0, 0, 0.45)",
       },
     },
   },

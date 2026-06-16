@@ -4,28 +4,46 @@
 </a>
 
 <p align="center">
-  An open source real-time AI image generator. Powered by Flux through Together.ai.
+  A bulk AI image generator powered by Together AI. Select multiple image models, set a variation count, and generate in parallel.
 </p>
+
+## Features
+
+- Multi-model selection from Together AI's full image model fleet
+- Configurable variation count per run
+- Concurrent generation with progressive grid results
+- Aspect ratio selection (1:1, 16:9, 9:16, 4:3, 3:4)
+- Server-side API key (no BYO key required)
 
 ## Tech stack
 
-- [Flux Schnell](https://togetherai.link/together-flux/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app) from BFL for the image model
-- [Together AI](https://togetherai.link/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app) for inference
-- Next.js app router with Tailwind
-- Helicone for observability
-- Plausible for website analytics
+- [Together AI](https://together.ai) for image model inference
+- Next.js App Router with Tailwind CSS
+- React Query for model list caching
+- Optional Helicone observability
+- Optional Plausible analytics
 
-## Cloning & running
+## Setup
 
 1. Clone the repo: `git clone https://github.com/CPJ-N/hive-painter`
-2. Create a `.env.local` file and add your [Together AI API key](https://togetherai.link): `TOGETHER_API_KEY=`
-3. Run `npm install` and `npm run dev` to install dependencies and run locally
+2. Copy `.example.env` to `.env.local` and add your [Together AI API key](https://api.together.xyz/settings/api-keys): `TOGETHER_API_KEY=`
+3. Run `pnpm install` and `pnpm dev`
 
-## Future Tasks
+## Environment variables
 
-- [ ] Show a download button so people can get their images
-- [ ] Add auth and rate limit by email instead of IP
-- [ ] Show people how many credits they have left
-- [ ] Build an image gallery of cool generations w/ their prompts
-- [ ] Add replay functionality so people can replay consistent generations
-- [ ] Add a setting to select between steps (2-5)
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `TOGETHER_API_KEY` | Yes | Together AI API key for image generation |
+| `HELICONE_API_KEY` | No | Helicone observability |
+| `ENABLE_RATE_LIMIT` | No | Set to `true` to enable Upstash rate limiting (off by default) |
+| `UPSTASH_REDIS_REST_URL` | No | Required only if rate limiting is enabled |
+| `UPSTASH_REDIS_REST_TOKEN` | No | Required only if rate limiting is enabled |
+
+## Usage
+
+1. Type a prompt in the composer at the bottom of the screen
+2. Select one or more image models
+3. Set the variation count (images per model)
+4. Click **Run** or press `Cmd+Enter`
+
+Images appear in the grid as each model completes.

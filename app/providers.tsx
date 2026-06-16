@@ -10,8 +10,11 @@ import toast, { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => {
-      toast.error(error.message.slice(1, -1));
+    onError: (error, query) => {
+      if (query.meta?.suppressToast) return;
+      const message =
+        error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message);
     },
   }),
 });
