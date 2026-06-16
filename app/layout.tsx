@@ -11,11 +11,12 @@ const anonymousPro = Anonymous_Pro({
   variable: "--font-anonymous-pro",
 });
 
-let title = "BlinkShot – Real-Time AI Image Generator";
-let description = "Generate images with AI in a milliseconds";
-let url = "https://www.blinkshot.io/";
-let ogimage = "https://www.blinkshot.io/og-image.png";
-let sitename = "blinkshot.io";
+let title = "Hive Painter - Real-Time AI Image Generator";
+let description = "Generate images with AI in milliseconds.";
+let url = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+let ogimage = "/og-image.png";
+let sitename = "Hive Painter";
+let plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? "hive-painter";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -50,7 +51,7 @@ export default function RootLayout({
     <html lang="en" className={`h-full ${anonymousPro.variable} font-mono`}>
       <head>
         <meta name="color-scheme" content="dark" />
-        <PlausibleProvider domain="blinkshot.io" />
+        <PlausibleProvider domain={plausibleDomain} />
       </head>
       <body
         className="dark h-full min-h-full bg-[length:6px] font-mono text-gray-100 antialiased"

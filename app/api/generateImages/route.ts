@@ -13,7 +13,7 @@ if (process.env.UPSTASH_REDIS_REST_URL) {
     // Allow 5 requests per day (~1 prompt), then need to use API key
     limiter: Ratelimit.fixedWindow(5, "1440 m"),
     analytics: true,
-    prefix: "blinkshot",
+    prefix: "hive-painter",
   });
 }
 

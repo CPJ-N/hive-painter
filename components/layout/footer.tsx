@@ -1,6 +1,5 @@
 import GithubIcon from "@/components/icons/github-icon";
 import { Button } from "../ui/button";
-import XIcon from "../icons/x-icon";
 
 export function Footer() {
   return (
@@ -8,7 +7,7 @@ export function Footer() {
       <p>
         Powered by{" "}
         <a
-          href="https://togetherai.link/?utm_source=blinkshot&utm_medium=referral&utm_campaign=example-app"
+          href="https://togetherai.link/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app"
           target="_blank"
           className="underline underline-offset-4 transition hover:text-blue-500"
         >
@@ -16,7 +15,7 @@ export function Footer() {
         </a>{" "}
         &{" "}
         <a
-          href="https://togetherai.link/together-flux/?utm_source=blinkshot&utm_medium=referral&utm_campaign=example-app"
+          href="https://togetherai.link/together-flux/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app"
           target="_blank"
           className="underline underline-offset-4 transition hover:text-blue-500"
         >
@@ -28,7 +27,7 @@ export function Footer() {
         <p className="hidden whitespace-nowrap md:block">
           100% free and{" "}
           <a
-            href="https://github.com/Nutlope/blinkshot"
+            href="https://github.com/CPJ-N/hive-painter"
             target="_blank"
             className="underline underline-offset-4 transition hover:text-blue-500"
           >
@@ -37,7 +36,7 @@ export function Footer() {
         </p>
 
         <div className="flex gap-6 md:gap-2">
-          <a href="https://github.com/Nutlope/blinkshot" target="_blank">
+          <a href="https://github.com/CPJ-N/hive-painter" target="_blank">
             <Button
               variant="outline"
               size="sm"
@@ -45,16 +44,6 @@ export function Footer() {
             >
               <GithubIcon className="size-4" />
               GitHub
-            </Button>
-          </a>
-          <a href="https://x.com/nutlope" target="_blank">
-            <Button
-              size="sm"
-              variant="outline"
-              className="inline-flex items-center gap-2"
-            >
-              <XIcon className="size-3" />
-              Twitter
             </Button>
           </a>
         </div>

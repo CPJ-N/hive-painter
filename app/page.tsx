@@ -306,7 +306,7 @@ function HomeContent() {
                   onClick={() => {
                     const link = document.createElement("a");
                     link.href = `data:image/png;base64,${activeGeneration.image.b64_json}`;
-                    link.download = `blinkshot-${activeGeneration.prompt.replace(/\s+/g, "-").toLowerCase()}.png`;
+                    link.download = `hive-painter-${activeGeneration.prompt.replace(/\s+/g, "-").toLowerCase()}.png`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);

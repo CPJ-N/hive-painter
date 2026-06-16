@@ -1,8 +1,12 @@
 export default function Logo() {
   return (
-    <div className="flex h-[24px] min-w-[228px] flex-row gap-2.5">
+    <div className="flex h-[24px] min-w-[266px] flex-row gap-2.5">
       <a target="_blank" href="/">
-        <img src="/blinkshot.svg" className="h-[24px] min-w-[100px]" />
+        <img
+          src="/hive-painter.svg"
+          alt="Hive Painter"
+          className="h-[24px] min-w-[138px]"
+        />
       </a>
       <svg
         width="2"

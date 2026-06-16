@@ -1,6 +1,6 @@
-<a href="https://www.blinkshot.io">
-  <img alt="Blinkshot" src="./public/og-image.png">
-  <h1 align="center">BlinkShot</h1>
+<a href="https://github.com/CPJ-N/hive-painter">
+  <img alt="Hive Painter" src="./public/og-image.png">
+  <h1 align="center">Hive Painter</h1>
 </a>
 
 <p align="center">
@@ -9,15 +9,15 @@
 
 ## Tech stack
 
-- [Flux Schnell](https://togetherai.link/together-flux/?utm_source=blinkshot&utm_medium=referral&utm_campaign=example-app) from BFL for the image model
-- [Together AI](https://togetherai.link/?utm_source=blinkshot&utm_medium=referral&utm_campaign=example-app) for inference
+- [Flux Schnell](https://togetherai.link/together-flux/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app) from BFL for the image model
+- [Together AI](https://togetherai.link/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app) for inference
 - Next.js app router with Tailwind
 - Helicone for observability
 - Plausible for website analytics
 
 ## Cloning & running
 
-1. Clone the repo: `git clone https://github.com/Nutlope/blinkshot`
+1. Clone the repo: `git clone https://github.com/CPJ-N/hive-painter`
 2. Create a `.env.local` file and add your [Together AI API key](https://togetherai.link): `TOGETHER_API_KEY=`
 3. Run `npm install` and `npm run dev` to install dependencies and run locally
 
