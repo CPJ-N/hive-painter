@@ -38,6 +38,10 @@ type ComposerProps = {
   userAPIKey?: string;
 };
 
+function getDefaultCountForModelCount(modelCount: number) {
+  return modelCount === 1 ? DEFAULT_VARIATION_COUNT : 1;
+}
+
 export default function Composer({
   onRun,
   isRunning,
@@ -47,7 +51,9 @@ export default function Composer({
   const [prompt, setPrompt] = useState("");
   const [selectedModelIds, setSelectedModelIds] =
     useState<string[]>(DEFAULT_MODEL_IDS);
-  const [count, setCount] = useState(DEFAULT_VARIATION_COUNT);
+  const [count, setCount] = useState(() =>
+    getDefaultCountForModelCount(DEFAULT_MODEL_IDS.length),
+  );
   const [aspectRatio, setAspectRatio] = useState(DEFAULT_ASPECT_RATIO.value);
   const { data: models, isError, error } = useImageModels(userAPIKey);
   const configError =
@@ -65,6 +71,10 @@ export default function Composer({
       return models.slice(0, 2).map((model) => model.id);
     });
   }, [models]);
+
+  useEffect(() => {
+    setCount(getDefaultCountForModelCount(selectedModelIds.length));
+  }, [selectedModelIds.length]);
 
   const selectedAspect =
     ASPECT_RATIOS.find((ratio) => ratio.value === aspectRatio) ??

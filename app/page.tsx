@@ -30,6 +30,15 @@ function HomeContent() {
   }, [userAPIKey]);
 
   const hasResults = tiles.length > 0;
+  const composer = (
+    <Composer
+      userAPIKey={userAPIKey}
+      isRunning={isRunning}
+      onRun={(params) => {
+        run({ ...params, userAPIKey: userAPIKey.trim() || undefined });
+      }}
+    />
+  );
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden">
@@ -41,33 +50,27 @@ function HomeContent() {
         onAPIKeyChange={setUserAPIKey}
       />
 
-      <main
-        className={`relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 sm:px-6 lg:px-8 ${
-          hasResults
-            ? "gap-5 py-5"
-            : "min-h-screen justify-center pb-10 pt-28 sm:pb-14"
-        }`}
-      >
-        {!hasResults && (
+      {hasResults ? (
+        <>
+          <main className="relative z-10 w-full flex-1 px-4 pb-56 pt-5 sm:px-6 lg:px-8">
+            <ResultGrid tiles={tiles} prompt={lastPrompt} onRetry={retryTile} />
+          </main>
+
+          <div className="fixed inset-x-0 bottom-7 z-40 px-4 sm:bottom-9">
+            <div className="mx-auto w-full max-w-3xl">{composer}</div>
+          </div>
+        </>
+      ) : (
+        <main className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-1 flex-col justify-center px-4 pb-10 pt-28 sm:px-6 sm:pb-14 lg:px-8">
           <section className="mx-auto mb-8 max-w-4xl text-center sm:mb-10">
             <h1 className="text-balance font-serif text-5xl font-normal leading-[0.95] text-gray-100 sm:text-7xl lg:text-8xl">
               Describe an image, then run it across models.
             </h1>
           </section>
-        )}
 
-        <div className="mx-auto w-full max-w-3xl">
-          <Composer
-            userAPIKey={userAPIKey}
-            isRunning={isRunning}
-            onRun={(params) => {
-              run({ ...params, userAPIKey: userAPIKey.trim() || undefined });
-            }}
-          />
-        </div>
-
-        <ResultGrid tiles={tiles} prompt={lastPrompt} onRetry={retryTile} />
-      </main>
+          <div className="mx-auto w-full max-w-3xl">{composer}</div>
+        </main>
+      )}
     </div>
   );
 }

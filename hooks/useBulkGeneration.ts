@@ -8,6 +8,9 @@ export type ImageResponse = {
 
 export type GenerationTile = {
   id: string;
+  runId: string;
+  createdAt: number;
+  prompt: string;
   model: string;
   variationIndex: number;
   status: "pending" | "done" | "error";
@@ -86,13 +89,22 @@ async function runWithConcurrency<T>(
   return results;
 }
 
-function buildTiles(models: string[], count: number): GenerationTile[] {
+function buildTiles(
+  prompt: string,
+  models: string[],
+  count: number,
+): GenerationTile[] {
+  const runId = crypto.randomUUID();
+  const createdAt = Date.now();
   const tiles: GenerationTile[] = [];
 
   for (const model of models) {
     for (let i = 0; i < count; i++) {
       tiles.push({
         id: `${model}-${i}-${crypto.randomUUID()}`,
+        runId,
+        createdAt,
+        prompt,
         model,
         variationIndex: i,
         status: "pending",
@@ -109,6 +121,7 @@ export default function useBulkGeneration() {
   const [lastPrompt, setLastPrompt] = useState("");
   const [lastRunParams, setLastRunParams] = useState<RunOptions | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const runParamsByTileRef = useRef(new Map<string, RunOptions>());
 
   const updateTile = useCallback(
     (id: string, patch: Partial<GenerationTile>) => {
@@ -129,10 +142,14 @@ export default function useBulkGeneration() {
       const controller = new AbortController();
       abortRef.current = controller;
 
-      const initialTiles = buildTiles(models, count);
-      setTiles(initialTiles);
+      const runParams = { prompt, models, count, width, height, userAPIKey };
+      const initialTiles = buildTiles(prompt, models, count);
+      initialTiles.forEach((tile) => {
+        runParamsByTileRef.current.set(tile.id, runParams);
+      });
+      setTiles((prev) => [...initialTiles, ...prev]);
       setLastPrompt(prompt);
-      setLastRunParams({ prompt, models, count, width, height, userAPIKey });
+      setLastRunParams(runParams);
       setIsRunning(true);
 
       const tasks = initialTiles.map((tile) => async () => {
@@ -175,13 +192,18 @@ export default function useBulkGeneration() {
   const retryTile = useCallback(
     async (tileId: string) => {
       const tile = tiles.find((t) => t.id === tileId);
-      if (!tile || !lastRunParams) return;
+      const runParams = runParamsByTileRef.current.get(tileId) ?? lastRunParams;
+      if (!tile || !runParams) return;
 
-      updateTile(tileId, { status: "pending", error: undefined, image: undefined });
+      updateTile(tileId, {
+        status: "pending",
+        error: undefined,
+        image: undefined,
+      });
 
       try {
         const image = await generateOneImage({
-          ...lastRunParams,
+          ...runParams,
           model: tile.model,
           variationIndex: tile.variationIndex,
         });
@@ -196,6 +218,7 @@ export default function useBulkGeneration() {
 
   const clear = useCallback(() => {
     abortRef.current?.abort();
+    runParamsByTileRef.current.clear();
     setTiles([]);
     setLastPrompt("");
     setLastRunParams(null);
