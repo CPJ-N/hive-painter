@@ -360,7 +360,7 @@ const html = `<!doctype html>
           <div class="api-key"><strong>key</strong> Paste Together key</div>
           <div class="source">100% free and <span>open source</span></div>
           <div class="pill">GitHub</div>
-          <div class="pill">Twitter</div>
+          <div class="pill">X</div>
         </div>
       </nav>
 

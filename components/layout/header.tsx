@@ -6,8 +6,7 @@ import { Input } from "@/components/ui/input";
 import { KeyRound } from "lucide-react";
 
 const GITHUB_URL = "https://github.com/CPJ-N/hive-painter";
-const TWITTER_SHARE_URL =
-  "https://twitter.com/intent/tweet?text=Hive%20Painter%20-%20bulk%20AI%20image%20generation%20across%20models&url=https%3A%2F%2Fgithub.com%2FCPJ-N%2Fhive-painter";
+const X_PROFILE_URL = "https://x.com/dillikahoon";
 
 type HeaderProps = {
   userAPIKey: string;
@@ -94,9 +93,8 @@ export function Header({
               size="sm"
               className="border-gray-100/10 bg-gray-500/80 text-gray-100 shadow-none hover:border-moss-300/40 hover:bg-gray-400 hover:text-moss-300"
             >
-              <a href={TWITTER_SHARE_URL} target="_blank" rel="noreferrer">
-                <XIcon className="mr-2 size-4" />
-                Twitter
+              <a href={X_PROFILE_URL} target="_blank" rel="noreferrer">
+                <XIcon className="mr-2 size-4" />X
               </a>
             </Button>
           </div>
