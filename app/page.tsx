@@ -42,6 +42,7 @@ function HomeContent() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+      {hasResults && <ResultsBackdrop />}
       {!hasResults && <GalleryBackdrop />}
 
       <Header
@@ -75,9 +76,18 @@ function HomeContent() {
   );
 }
 
+function ResultsBackdrop() {
+  return (
+    <div className="app-surface-bg pointer-events-none fixed inset-0 z-0">
+      <div className="app-surface-grid absolute inset-0 opacity-50" />
+      <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-gray-600/80 to-transparent" />
+    </div>
+  );
+}
+
 function GalleryBackdrop() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-gray-600">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-gray-600">
       <div className="grid h-full min-h-[100svh] grid-cols-3 gap-2 p-2 opacity-60 sm:grid-cols-4 lg:grid-cols-6">
         {galleryTiles.map((style, index) => (
           <div

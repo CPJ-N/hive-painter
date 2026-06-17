@@ -2,7 +2,24 @@ import GithubIcon from "@/components/icons/github-icon";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, KeyRound } from "lucide-react";
+import { KeyRound } from "lucide-react";
+
+const GITHUB_URL = "https://github.com/CPJ-N/hive-painter";
+const TWITTER_SHARE_URL =
+  "https://twitter.com/intent/tweet?text=Hive%20Painter%20-%20bulk%20AI%20image%20generation%20across%20models&url=https%3A%2F%2Fgithub.com%2FCPJ-N%2Fhive-painter";
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M17.53 3h3.28l-7.16 8.18L22 21h-6.55l-5.13-6.7L4.45 21H1.17l7.66-8.75L.82 3h6.72l4.64 6.13L17.53 3Zm-1.15 16.27h1.82L6.55 4.64H4.6l11.78 14.63Z" />
+    </svg>
+  );
+}
 
 type HeaderProps = {
   userAPIKey: string;
@@ -26,15 +43,9 @@ export function Header({
       <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <div className="flex min-w-0 items-center justify-between gap-4">
           <Logo />
-          <a
-            href="https://togetherai.link/?utm_source=hive-painter&utm_medium=referral&utm_campaign=example-app"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden items-center gap-1.5 rounded-md border border-gray-100/10 bg-gray-500/70 px-3 py-2 text-sm text-gray-200 transition hover:border-moss-300/40 hover:text-moss-300 md:inline-flex"
-          >
+          <p className="hidden whitespace-nowrap text-sm text-gray-200/80 md:block">
             Powered by Together.ai
-            <ExternalLink className="size-3.5" aria-hidden="true" />
-          </a>
+          </p>
         </div>
 
         <nav className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
@@ -67,34 +78,37 @@ export function Header({
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="hidden border-gray-100/10 bg-gray-500/80 text-gray-200 shadow-none hover:border-moss-300/40 hover:bg-gray-400 hover:text-moss-300 md:inline-flex"
-            >
+            <p className="hidden whitespace-nowrap text-sm text-gray-200/80 lg:block">
+              100% free and{" "}
               <a
-                href="https://github.com/CPJ-N/hive-painter"
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
+                className="underline underline-offset-4 transition hover:text-honey-300"
               >
-                <ExternalLink className="mr-2 size-3.5" aria-hidden="true" />
-                Open source
+                open source
               </a>
-            </Button>
+            </p>
             <Button
               asChild
               variant="outline"
               size="sm"
               className="border-gray-100/10 bg-gray-500/80 text-gray-100 shadow-none hover:border-honey-300/40 hover:bg-gray-400 hover:text-honey-300"
             >
-              <a
-                href="https://github.com/CPJ-N/hive-painter"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href={GITHUB_URL} target="_blank" rel="noreferrer">
                 <GithubIcon className="mr-2 size-4" />
                 GitHub
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="border-gray-100/10 bg-gray-500/80 text-gray-100 shadow-none hover:border-moss-300/40 hover:bg-gray-400 hover:text-moss-300"
+            >
+              <a href={TWITTER_SHARE_URL} target="_blank" rel="noreferrer">
+                <XIcon className="mr-2 size-4" />
+                Twitter
               </a>
             </Button>
           </div>
