@@ -9,29 +9,40 @@ type ResultGridProps = {
   onRetry?: (tileId: string) => void;
 };
 
-export default function ResultGrid({ tiles, prompt, onRetry }: ResultGridProps) {
+export default function ResultGrid({
+  tiles,
+  prompt,
+  onRetry,
+}: ResultGridProps) {
+  const doneCount = tiles.filter((tile) => tile.status === "done").length;
+  const errorCount = tiles.filter((tile) => tile.status === "error").length;
+
   if (tiles.length === 0) {
-    return (
-      <div className="flex flex-1 items-center justify-center px-4 pb-40 pt-10">
-        <div className="max-w-xl text-center">
-          <p className="text-xl font-semibold tracking-tight text-gray-100 md:text-3xl">
-            Bulk image generation
-          </p>
-          <p className="mt-4 text-balance text-sm leading-relaxed text-gray-300/80 md:text-base">
-            Select models, set a count, and run. Images from every model fill in
-            as they complete.
-          </p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 pb-44 pt-6">
-      {prompt && (
-        <p className="mb-4 text-center text-sm text-gray-300/70">{prompt}</p>
-      )}
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <section className="min-h-[640px] overflow-hidden rounded-md border border-gray-100/10 bg-gray-500/70 shadow-panel">
+      <div className="flex flex-col gap-3 border-b border-gray-100/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold text-gray-100">Results</h2>
+          {prompt && (
+            <p className="mt-0.5 truncate text-sm text-gray-300">{prompt}</p>
+          )}
+        </div>
+        <div className="flex shrink-0 items-center gap-2 text-xs font-medium">
+          <span className="rounded-md border border-moss-300/25 bg-moss-500/20 px-2.5 py-1 text-moss-300">
+            {doneCount}/{tiles.length} done
+          </span>
+          {errorCount > 0 && (
+            <span className="rounded-md border border-rose-400/30 bg-rose-500/10 px-2.5 py-1 text-rose-300">
+              {errorCount} failed
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 sm:p-5 xl:grid-cols-4 2xl:grid-cols-5">
         {tiles.map((tile) => (
           <ResultTile
             key={tile.id}
@@ -41,6 +52,6 @@ export default function ResultGrid({ tiles, prompt, onRetry }: ResultGridProps) 
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

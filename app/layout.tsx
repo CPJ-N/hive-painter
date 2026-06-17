@@ -1,14 +1,19 @@
 import Providers from "@/app/providers";
-import bgPattern from "@/public/bg-pattern-transparent.png";
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import PlausibleProvider from "next-plausible";
-import { Anonymous_Pro } from "next/font/google";
 import "./globals.css";
 
-const anonymousPro = Anonymous_Pro({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-anonymous-pro",
+const geistSans = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-geist-sans",
+  weight: "100 900",
+});
+
+const geistMono = localFont({
+  src: "./fonts/GeistMonoVF.woff",
+  variable: "--font-geist-mono",
+  weight: "100 900",
 });
 
 let title = "Hive Painter - Bulk AI Image Generator";
@@ -16,7 +21,8 @@ let description = "Generate images across multiple Together AI models at once.";
 let url = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 let ogimage = "/og-image.png";
 let sitename = "Hive Painter";
-let plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? "hive-painter";
+let plausibleDomain =
+  process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? "hive-painter";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -48,15 +54,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full ${anonymousPro.variable} font-mono`}>
+    <html
+      lang="en"
+      className={`dark h-full ${geistSans.variable} ${geistMono.variable}`}
+    >
       <head>
         <meta name="color-scheme" content="dark" />
         <PlausibleProvider domain={plausibleDomain} />
       </head>
-      <body
-        className="dark h-full min-h-full bg-[length:6px] font-mono text-gray-100 antialiased"
-        style={{ backgroundImage: `url(${bgPattern.src})` }}
-      >
+      <body className="h-full min-h-full bg-gray-600 font-sans text-gray-100 antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

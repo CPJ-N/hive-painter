@@ -5,24 +5,24 @@
 @layer base {
   :root {
     --background: 0 0% 3%;
-    --foreground: 140 12% 90%;
-    --card: 155 20% 6%;
-    --card-foreground: 140 12% 90%;
-    --popover: 155 20% 6%;
-    --popover-foreground: 140 12% 90%;
-    --primary: 152 38% 22%;
-    --primary-foreground: 140 15% 88%;
-    --secondary: 155 12% 10%;
-    --secondary-foreground: 140 10% 82%;
-    --muted: 155 10% 12%;
-    --muted-foreground: 150 8% 48%;
-    --accent: 152 28% 12%;
-    --accent-foreground: 152 30% 45%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 8 38% 52%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 88%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 8 25% 14%;
+    --accent-foreground: 8 45% 72%;
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 98%;
-    --border: 155 12% 14%;
-    --input: 155 12% 10%;
-    --ring: 152 38% 28%;
+    --border: 0 0% 18%;
+    --input: 0 0% 14%;
+    --ring: 8 38% 52%;
     --radius: 0.625rem;
   }
 }
@@ -32,8 +32,39 @@
     @apply border-border;
   }
 
+  html {
+    background: #070907;
+    overscroll-behavior-y: none;
+  }
+
   body {
     @apply bg-gray-600 text-gray-100 antialiased;
+    min-height: 100%;
+    overscroll-behavior-y: none;
+    background:
+      linear-gradient(
+        135deg,
+        rgba(246, 245, 236, 0.055) 0 1px,
+        transparent 1px 34px
+      ),
+      linear-gradient(
+        90deg,
+        rgba(134, 190, 116, 0.065),
+        transparent 30%,
+        rgba(220, 169, 74, 0.045) 64%,
+        transparent
+      ),
+      linear-gradient(180deg, #0b0f0b 0%, #070907 48%, #10150f 100%);
+    background-attachment: fixed;
+    background-size:
+      34px 34px,
+      100% 100%,
+      100% 100%;
+  }
+
+  ::selection {
+    background: rgba(240, 119, 99, 0.35);
+    color: #f6f5ec;
   }
 }
 

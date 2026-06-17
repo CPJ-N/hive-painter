@@ -4,6 +4,7 @@ import Image from "next/image";
 import Spinner from "@/components/spinner";
 import type { GenerationTile } from "@/hooks/useBulkGeneration";
 import imagePlaceholder from "@/public/image-placeholder.png";
+import { AlertCircle, Download, RotateCcw } from "lucide-react";
 
 type ResultTileProps = {
   tile: GenerationTile;
@@ -28,23 +29,27 @@ export default function ResultTile({ tile, prompt, onRetry }: ResultTileProps) {
   };
 
   return (
-    <div className="group relative overflow-hidden rounded-lg border border-gray-350/70 bg-gray-500/80 shadow-tile transition hover:border-emerald-500/20">
+    <div className="group relative overflow-hidden rounded-md border border-gray-100/10 bg-gray-400/70 shadow-tile transition hover:border-honey-300/40">
       <div className="relative aspect-square w-full">
         {tile.status === "pending" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-400/50">
-            <Spinner className="size-8 text-emerald-400" />
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-600/50">
+            <Spinner className="size-8 text-honey-300" />
           </div>
         )}
 
         {tile.status === "error" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gray-400/50 p-4 text-center">
-            <p className="text-xs text-red-400/90">Generation failed</p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gray-600/60 p-4 text-center">
+            <AlertCircle className="size-6 text-rose-300" aria-hidden />
+            <p className="text-xs font-medium text-rose-300">
+              Generation failed
+            </p>
             {onRetry && (
               <button
                 type="button"
                 onClick={() => onRetry(tile.id)}
-                className="rounded-md border border-gray-350/80 bg-gray-500/80 px-3 py-1 text-xs text-gray-200 transition hover:border-emerald-500/40 hover:text-emerald-400"
+                className="inline-flex items-center gap-1.5 rounded-md border border-gray-100/10 bg-gray-500 px-3 py-1.5 text-xs text-gray-200 transition hover:border-honey-300/40 hover:text-honey-300"
               >
+                <RotateCcw className="size-3.5" aria-hidden />
                 Retry
               </button>
             )}
@@ -59,27 +64,27 @@ export default function ResultTile({ tile, prompt, onRetry }: ResultTileProps) {
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
               src={`data:image/png;base64,${tile.image.b64_json}`}
-              alt={prompt}
+              alt={prompt || "Generated image"}
               className="object-cover"
             />
             <button
               type="button"
               onClick={downloadImage}
-              className="absolute right-2 top-2 rounded-lg border border-transparent bg-black/40 p-2 opacity-0 backdrop-blur-sm transition group-hover:opacity-100 hover:bg-black/60"
-              title="Download image"
+              className="absolute right-2 top-2 inline-flex size-9 items-center justify-center rounded-md border border-white/10 bg-black/50 text-white opacity-0 backdrop-blur-sm transition hover:bg-black/70 group-hover:opacity-100"
+              aria-label="Download image"
             >
-              <img src="/download.svg" alt="Download" className="size-4" />
+              <Download className="size-4" aria-hidden />
             </button>
           </>
         )}
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-gray-350/60 bg-gray-500/40 px-3 py-2">
+      <div className="flex items-center justify-between gap-2 border-t border-gray-100/10 bg-gray-500/70 px-3 py-2">
         <p className="truncate text-xs text-gray-200/90" title={tile.model}>
           {shortModelName(tile.model)}
         </p>
         {tile.status === "done" && tile.image?.timings?.inference != null && (
-          <p className="shrink-0 text-[10px] text-gray-350">
+          <p className="shrink-0 font-mono text-[10px] text-gray-300">
             {(tile.image.timings.inference / 1000).toFixed(1)}s
           </p>
         )}
