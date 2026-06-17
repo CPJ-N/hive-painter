@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "brand:icons": "node scripts/render-brand-icons.mjs",
     "og:image": "node scripts/render-og-image.mjs",
     "lint": "eslint ."
   },

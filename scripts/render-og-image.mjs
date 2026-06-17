@@ -392,7 +392,13 @@ await rm(chromeProfilePath, { recursive: true, force: true });
 const chromeArgs = [
   "--headless=new",
   "--disable-gpu",
+  "--disable-background-networking",
+  "--disable-component-update",
+  "--disable-sync",
   "--hide-scrollbars",
+  "--metrics-recording-only",
+  "--no-default-browser-check",
+  "--no-first-run",
   "--allow-file-access-from-files",
   `--user-data-dir=${chromeProfilePath}`,
   "--window-size=2400,1260",

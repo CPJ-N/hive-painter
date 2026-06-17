@@ -1,5 +1,5 @@
 export const MISSING_API_KEY_MESSAGE =
-  "Server is not configured. Add TOGETHER_API_KEY to .env.local or enter your Together API key in the navbar.";
+  "Add your Together API key in the navbar to start generating images.";
 
 export function getTogetherApiKey(): string | undefined {
   const key = process.env.TOGETHER_API_KEY?.trim();

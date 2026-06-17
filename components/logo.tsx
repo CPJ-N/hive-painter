@@ -1,8 +1,9 @@
 import BrandMark from "@/components/brand-mark";
+import Link from "next/link";
 
 export default function Logo() {
   return (
-    <a
+    <Link
       href="/"
       className="group inline-flex min-w-0 items-center gap-3 text-gray-100"
       aria-label="Hive Painter"
@@ -13,6 +14,6 @@ export default function Logo() {
       <span className="truncate text-xl font-semibold tracking-normal text-gray-100">
         Hive Painter
       </span>
-    </a>
+    </Link>
   );
 }
