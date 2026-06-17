@@ -4,16 +4,17 @@
 </a>
 
 <p align="center">
-  A bulk AI image generator powered by Together AI. Select multiple image models, set a variation count, and generate in parallel.
+  A multi-model AI image workspace for running one prompt across Together AI's image model fleet, comparing outputs, and keeping every generation in view.
 </p>
 
 ## Features
 
-- Multi-model selection from Together AI's full image model fleet
-- Configurable variation count per run
-- Concurrent generation with progressive grid results
+- Multi-model selection from Together AI's image model fleet
+- Smart variation defaults for model comparison and solo generation
+- Floating composer with persistent generation history
+- Concurrent generation with progressive grid results separated by run
 - Aspect ratio selection (1:1, 16:9, 9:16, 4:3, 3:4)
-- Server-side API key (no BYO key required)
+- Server-side API key support with optional user API key entry in the navbar
 
 ## Tech stack
 
@@ -31,19 +32,19 @@
 
 ## Environment variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `TOGETHER_API_KEY` | Yes | Together AI API key for image generation |
-| `HELICONE_API_KEY` | No | Helicone observability |
-| `ENABLE_RATE_LIMIT` | No | Set to `true` to enable Upstash rate limiting (off by default) |
-| `UPSTASH_REDIS_REST_URL` | No | Required only if rate limiting is enabled |
-| `UPSTASH_REDIS_REST_TOKEN` | No | Required only if rate limiting is enabled |
+| Variable                   | Required | Description                                                                                             |
+| -------------------------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| `TOGETHER_API_KEY`         | No       | Server-side Together AI API key for image generation. Users can also enter their own key in the navbar. |
+| `HELICONE_API_KEY`         | No       | Helicone observability                                                                                  |
+| `ENABLE_RATE_LIMIT`        | No       | Set to `true` to enable Upstash rate limiting (off by default)                                          |
+| `UPSTASH_REDIS_REST_URL`   | No       | Required only if rate limiting is enabled                                                               |
+| `UPSTASH_REDIS_REST_TOKEN` | No       | Required only if rate limiting is enabled                                                               |
 
 ## Usage
 
-1. Type a prompt in the composer at the bottom of the screen
+1. Type a prompt in the floating composer
 2. Select one or more image models
-3. Set the variation count (images per model)
+3. Set the variation count, or keep the smart default
 4. Click **Run** or press `Cmd+Enter`
 
-Images appear in the grid as each model completes.
+Images appear in grouped result runs as each model completes.

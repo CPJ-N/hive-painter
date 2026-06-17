@@ -1,4 +1,5 @@
 import GithubIcon from "@/components/icons/github-icon";
+import XIcon from "@/components/icons/x-icon";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,19 +8,6 @@ import { KeyRound } from "lucide-react";
 const GITHUB_URL = "https://github.com/CPJ-N/hive-painter";
 const TWITTER_SHARE_URL =
   "https://twitter.com/intent/tweet?text=Hive%20Painter%20-%20bulk%20AI%20image%20generation%20across%20models&url=https%3A%2F%2Fgithub.com%2FCPJ-N%2Fhive-painter";
-
-function XIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className={className}
-      fill="currentColor"
-    >
-      <path d="M17.53 3h3.28l-7.16 8.18L22 21h-6.55l-5.13-6.7L4.45 21H1.17l7.66-8.75L.82 3h6.72l4.64 6.13L17.53 3Zm-1.15 16.27h1.82L6.55 4.64H4.6l11.78 14.63Z" />
-    </svg>
-  );
-}
 
 type HeaderProps = {
   userAPIKey: string;
