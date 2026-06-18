@@ -4,12 +4,12 @@
 </a>
 
 <p align="center">
-  A multi-model AI image workspace for running one prompt across Together AI's image model fleet, comparing outputs, and keeping every generation in view.
+  A multi-model AI image workspace for running one prompt across Together AI's current image models, comparing outputs, and keeping every generation in view.
 </p>
 
 ## Features
 
-- Multi-model selection from Together AI's image model fleet
+- Multi-model selection from Together AI's current supported image models
 - Smart variation defaults for model comparison and solo generation
 - Floating composer with persistent generation history
 - Concurrent generation with progressive grid results separated by run

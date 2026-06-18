@@ -9,6 +9,6 @@ export function getTogetherApiKey(): string | undefined {
 export function missingApiKeyResponse() {
   return Response.json(
     { error: MISSING_API_KEY_MESSAGE, code: "MISSING_API_KEY" },
-    { status: 503 },
+    { status: 401 },
   );
 }

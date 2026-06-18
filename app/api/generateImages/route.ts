@@ -4,6 +4,10 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { headers } from "next/headers";
 import { getTogetherApiKey, missingApiKeyResponse } from "@/lib/together";
+import {
+  getUnavailableImageModelMessage,
+  isOfferedImageModel,
+} from "@/lib/image-models";
 
 let ratelimit: Ratelimit | undefined;
 
@@ -22,7 +26,7 @@ if (
 
 export async function POST(req: Request) {
   const json = await req.json();
-  const { prompt, model, width, height, seed, steps, userAPIKey, style } = z
+  const parsed = z
     .object({
       prompt: z.string().min(1),
       model: z.string().min(1),
@@ -33,7 +37,25 @@ export async function POST(req: Request) {
       userAPIKey: z.string().optional(),
       style: z.string().optional(),
     })
-    .parse(json);
+    .safeParse(json);
+
+  if (!parsed.success) {
+    return Response.json(
+      { error: "Invalid generation request" },
+      { status: 400 },
+    );
+  }
+
+  const { prompt, model, width, height, seed, steps, userAPIKey, style } =
+    parsed.data;
+
+  if (!isOfferedImageModel(model)) {
+    console.warn("[generateImages] unavailable model requested", { model });
+    return Response.json(
+      { error: getUnavailableImageModelMessage(model) },
+      { status: 422 },
+    );
+  }
 
   const serverApiKey = getTogetherApiKey();
   if (!serverApiKey && !userAPIKey) {
@@ -84,6 +106,9 @@ export async function POST(req: Request) {
 
     const image = response.data?.[0];
     if (!image?.b64_json) {
+      console.error("[generateImages] model returned no image data", {
+        model,
+      });
       return Response.json(
         { error: "No image data returned" },
         { status: 500 },
@@ -93,7 +118,21 @@ export async function POST(req: Request) {
     return Response.json(image);
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
-    return Response.json({ error: message }, { status: 500 });
+    const status =
+      typeof e === "object" &&
+      e !== null &&
+      "status" in e &&
+      typeof e.status === "number"
+        ? e.status
+        : 500;
+
+    console.error("[generateImages] model unavailable or generation failed", {
+      model,
+      status,
+      message,
+    });
+
+    return Response.json({ error: message }, { status });
   }
 }
 

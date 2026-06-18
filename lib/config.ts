@@ -126,6 +126,6 @@ export const DEFAULT_VARIATION_COUNT = 4;
 export const MAX_VARIATION_COUNT = 20;
 export const MAX_CONCURRENCY = 8;
 export const DEFAULT_MODEL_IDS = [
-  "black-forest-labs/FLUX.1-schnell",
-  "black-forest-labs/FLUX.1.1-pro",
+  "black-forest-labs/FLUX.2-flex",
+  "google/flash-image-3.1",
 ];
